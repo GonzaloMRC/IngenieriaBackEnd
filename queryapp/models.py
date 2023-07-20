@@ -27,13 +27,29 @@ class Car(models.Model):
     car_use = models.CharField(max_length=18)
     extra_charge = models.CharField(max_length=25)
 
-class SampleSpring(models.Model):
-    spring_type = models.CharField(max_length=10)
-    spring_position = models.CharField(max_length=9)
-    suspension_type = models.CharField(max_length=16)
-    coil_spacer = models.CharField(max_length=20)
-    spacer_height = models.IntegerField()
+class CargoControl(models.Model):
+    f1 = models.DecimalField(max_digits=6, decimal_places=2)
+    f2 = models.DecimalField(max_digits=6, decimal_places=2) 
+    f3 = models.DecimalField(max_digits=6, decimal_places=2)
+    f4 = models.DecimalField(max_digits=6, decimal_places=2)
+    f5 = models.DecimalField(max_digits=6, decimal_places=2)
+    f6 = models.DecimalField(max_digits=6, decimal_places=2)
+    f7 = models.DecimalField(max_digits=6, decimal_places=2) 
+    f8 = models.DecimalField(max_digits=6, decimal_places=2)
+    f9 = models.DecimalField(max_digits=6, decimal_places=2)
+    f10 = models.DecimalField(max_digits=6, decimal_places=2)
+    l1 = models.DecimalField(max_digits=6, decimal_places=2)
+    l2 = models.DecimalField(max_digits=6, decimal_places=2) 
+    l3 = models.DecimalField(max_digits=6, decimal_places=2)
+    l4 = models.DecimalField(max_digits=6, decimal_places=2)
+    l5 = models.DecimalField(max_digits=6, decimal_places=2)
+    l6 = models.DecimalField(max_digits=6, decimal_places=2)
+    l7 = models.DecimalField(max_digits=6, decimal_places=2) 
+    l8 = models.DecimalField(max_digits=6, decimal_places=2)
+    l9 = models.DecimalField(max_digits=6, decimal_places=2)
+    l10 = models.DecimalField(max_digits=6, decimal_places=2)
 
+class Spring(models.Model):
     wire = models.DecimalField(max_digits=4, decimal_places=2)
     diam_ext1 = models.DecimalField(max_digits=5, decimal_places=2)
     diam_ext2 = models.DecimalField(max_digits=5, decimal_places=2)
@@ -42,27 +58,74 @@ class SampleSpring(models.Model):
     length = models.DecimalField(max_digits=6, decimal_places=2)
     coils = models.DecimalField(max_digits=6, decimal_places=3)
     coil_direction = models.CharField(max_length=20)
-    
-    
-    luz1 = models.IntegerField()
-    luz2 = models.IntegerField()
-
-    
     end1 = models.CharField(max_length=50, default="-")
-    red_coils1 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
-    
-    extremo2 = models.CharField(max_length=50, default="-")
-    vuelta_red2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
-    grado = models.IntegerField(default=2)
+    luz1 = models.IntegerField()
+    detail1_end1 = models.CharField(max_length=15, default="-")
+    detail2_end1 = models.CharField(max_length=15, default="-")
+    detail3_end1 = models.CharField(max_length=15, default="-")
+    eccentricity1 = models.DecimalField(max_digits=6, decimal_places=3)
+    end2 = models.CharField(max_length=50, default="-")
+    luz2 = models.IntegerField()
+    detail1_end2 = models.CharField(max_length=15, default="-")
+    detail2_end2 = models.CharField(max_length=15, default="-")
+    detail3_end2 = models.CharField(max_length=15, default="-")
+    eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3)
+    cargo_control = models.ForeignKey(CargoControl, null=1, on_delete=models.CASCADE)
+
+class SampleSpring(models.Model):
+    spring_type = models.CharField(max_length=10)
+    spring_position = models.CharField(max_length=9)
+    suspension_type = models.CharField(max_length=16)
+    source = models.CharField(max_length=15)
+    coil_spacer = models.CharField(max_length=20)
+    spacer_height = models.IntegerField()
+    spring = models.ForeignKey(Spring, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
 class Design(models.Model):
-    correlative = models.CharField(max_length=7)
+    correlative = models.IntegerField()
     status = models.CharField(max_length=11)
     registration_date = models.DateField()
     development = models.CharField(max_length=12)
     request_reason = models.CharField(max_length=100)
     aplication = models.CharField(max_length=100)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    sample_spring = models.ForeignKey(SampleSpring, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+
+class SpringPointsDesign(models.Model):
+    length = models.DecimalField(max_digits=5, decimal_places=2)
+    coils = models.DecimalField(max_digits=6, decimal_places=3)
+    include_point = models.BooleanField()
+
+class DesignedSpring(models.Model):
+    osis_code = models.IntegerField()
+    selected = models.BooleanField(default=0)
+    l_inst = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    l_charg = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    l_max = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    l_4 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    raw_material = models.CharField(max_length=20, default='-')
+    weight = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    transition_point = models.IntegerField(null=1)
+    price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    lda = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    spring = models.ForeignKey(Spring, null=1, on_delete=models.CASCADE)
+
+class ProducedSpring(models.Model):
+    osis_code = models.IntegerField()
+    date = models.DateField()
+    spring = models.ForeignKey(Spring, on_delete=models.CASCADE)
+
+class QualityControlReport(models.Model):
+    report_number = models.CharField(max_length=15)
+    production_requirement = models.CharField(max_length=15)
+    work_order = models.CharField(max_length=15)
+    design = models.ForeignKey(Design, on_delete=models.CASCADE)
+    designed_spring = models.ForeignKey(DesignedSpring, on_delete=models.CASCADE)
+    produced_spring = models.ForeignKey(ProducedSpring, on_delete=models.CASCADE)
+
+
 
 
 
