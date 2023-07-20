@@ -5,7 +5,7 @@ class Client(models.Model):
     name = models.CharField(max_length=80)
     dni_ruc = models.CharField(max_length=11)
     phone_number = models.CharField(max_length=9)
-    email = models.CharField(max_length=30)
+    email = models.CharField(max_length=30, null=1)
 
     def __str__(self):
         return self.name
@@ -30,28 +30,6 @@ class Car(models.Model):
     car_use = models.CharField(max_length=18,null=1)
     extra_charge = models.CharField(max_length=25,null=1)
 
-class CargoControl(models.Model):
-    f1 = models.DecimalField(max_digits=6, decimal_places=2)
-    f2 = models.DecimalField(max_digits=6, decimal_places=2) 
-    f3 = models.DecimalField(max_digits=6, decimal_places=2)
-    f4 = models.DecimalField(max_digits=6, decimal_places=2)
-    f5 = models.DecimalField(max_digits=6, decimal_places=2)
-    f6 = models.DecimalField(max_digits=6, decimal_places=2)
-    f7 = models.DecimalField(max_digits=6, decimal_places=2) 
-    f8 = models.DecimalField(max_digits=6, decimal_places=2)
-    f9 = models.DecimalField(max_digits=6, decimal_places=2)
-    f10 = models.DecimalField(max_digits=6, decimal_places=2)
-    l1 = models.DecimalField(max_digits=6, decimal_places=2)
-    l2 = models.DecimalField(max_digits=6, decimal_places=2) 
-    l3 = models.DecimalField(max_digits=6, decimal_places=2)
-    l4 = models.DecimalField(max_digits=6, decimal_places=2)
-    l5 = models.DecimalField(max_digits=6, decimal_places=2)
-    l6 = models.DecimalField(max_digits=6, decimal_places=2)
-    l7 = models.DecimalField(max_digits=6, decimal_places=2) 
-    l8 = models.DecimalField(max_digits=6, decimal_places=2)
-    l9 = models.DecimalField(max_digits=6, decimal_places=2)
-    l10 = models.DecimalField(max_digits=6, decimal_places=2)
-
 class Spring(models.Model):
     wire = models.DecimalField(max_digits=4, decimal_places=2)
     diam_ext1 = models.DecimalField(max_digits=5, decimal_places=2)
@@ -66,14 +44,36 @@ class Spring(models.Model):
     detail1_end1 = models.CharField(max_length=15, default="-")
     detail2_end1 = models.CharField(max_length=15, default="-")
     detail3_end1 = models.CharField(max_length=15, default="-")
-    eccentricity1 = models.DecimalField(max_digits=6, decimal_places=3)
+    eccentricity1 = models.DecimalField(max_digits=6, decimal_places=3, default="-")
     end2 = models.CharField(max_length=50, default="-")
     luz2 = models.IntegerField()
     detail1_end2 = models.CharField(max_length=15, default="-")
     detail2_end2 = models.CharField(max_length=15, default="-")
     detail3_end2 = models.CharField(max_length=15, default="-")
-    eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3)
-    cargo_control = models.ForeignKey(CargoControl, null=1, on_delete=models.CASCADE)
+    eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3, default="-")
+
+class CargoControl(models.Model):
+    f1 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f2 = models.DecimalField(max_digits=6, decimal_places=2, null=1) 
+    f3 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f4 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f5 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f6 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f7 = models.DecimalField(max_digits=6, decimal_places=2, null=1) 
+    f8 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f9 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    f10 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l1 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l2 = models.DecimalField(max_digits=6, decimal_places=2, null=1) 
+    l3 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l4 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l5 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l6 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l7 = models.DecimalField(max_digits=6, decimal_places=2, null=1) 
+    l8 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l9 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    l10 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
+    spring =models.OneToOneField(Spring, on_delete=models.CASCADE, null=False, blank=False, default=1)
 
 class SampleSpring(models.Model):
     spring_type = models.CharField(max_length=10)
@@ -82,7 +82,7 @@ class SampleSpring(models.Model):
     source = models.CharField(max_length=15)
     coil_spacer = models.CharField(max_length=20)
     spacer_height = models.IntegerField()
-    spring = models.ForeignKey(Spring, on_delete=models.CASCADE)
+    spring = models.OneToOneField(Spring, on_delete=models.CASCADE, null=False, blank=False)
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
 
 class Design(models.Model):
@@ -113,12 +113,12 @@ class DesignedSpring(models.Model):
     transition_point = models.IntegerField(null=1)
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0)
     lda = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    spring = models.ForeignKey(Spring, null=1, on_delete=models.CASCADE)
+    spring = models.OneToOneField(Spring, on_delete=models.CASCADE, null=False, blank=False)
 
 class ProducedSpring(models.Model):
     osis_code = models.IntegerField()
     date = models.DateField()
-    spring = models.ForeignKey(Spring, on_delete=models.CASCADE)
+    spring = models.ForeignKey(Spring, on_delete=models.CASCADE,null=False, blank=False)
 
 class QualityControlReport(models.Model):
     report_number = models.CharField(max_length=15)
