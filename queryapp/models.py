@@ -7,25 +7,28 @@ class Client(models.Model):
     phone_number = models.CharField(max_length=9)
     email = models.CharField(max_length=30)
 
+    def __str__(self):
+        return self.name
+
 class Car(models.Model):
     vin = models.CharField(max_length=17)
     brand = models.CharField(max_length=11)
     model = models.CharField(max_length=20)
     year = models.CharField(max_length=4)
-    bodywork = models.CharField(max_length=16)
-    plate = models.CharField(max_length=7)
-    fuel = models.CharField(max_length=18)
-    displacement = models.CharField(max_length=5)
-    wheel_drive = models.CharField(max_length=9)
-    gas_tank = models.CharField(max_length=14)
-    net_weight = models.IntegerField()
-    goss_weight = models.IntegerField()
-    rows_seats = models.IntegerField()
-    mileage_km = models.IntegerField()
-    original_tire_code = models.CharField(max_length=9)
-    installed_tire_code = models.CharField(max_length=9)
-    car_use = models.CharField(max_length=18)
-    extra_charge = models.CharField(max_length=25)
+    bodywork = models.CharField(max_length=16,null=1)
+    plate = models.CharField(max_length=7,null=1)
+    fuel = models.CharField(max_length=18,null=1)
+    displacement = models.CharField(max_length=5,null=1)
+    wheel_drive = models.CharField(max_length=9,null=1)
+    gas_tank = models.CharField(max_length=14,null=1)
+    net_weight = models.IntegerField(null=1)
+    goss_weight = models.IntegerField(null=1)
+    rows_seats = models.IntegerField(null=1)
+    mileage_km = models.IntegerField(null=1)
+    original_tire_code = models.CharField(max_length=9,null=1)
+    installed_tire_code = models.CharField(max_length=9,null=1)
+    car_use = models.CharField(max_length=18,null=1)
+    extra_charge = models.CharField(max_length=25,null=1)
 
 class CargoControl(models.Model):
     f1 = models.DecimalField(max_digits=6, decimal_places=2)
