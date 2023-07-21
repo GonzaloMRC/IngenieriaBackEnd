@@ -30,6 +30,9 @@ class Car(models.Model):
     car_use = models.CharField(max_length=18,null=1)
     extra_charge = models.CharField(max_length=25,null=1)
 
+    def __str__(self):
+        return self.brand + " " + self.model + " " + self.year
+
 class Spring(models.Model):
     wire = models.DecimalField(max_digits=4, decimal_places=2)
     diam_ext1 = models.DecimalField(max_digits=5, decimal_places=2)
