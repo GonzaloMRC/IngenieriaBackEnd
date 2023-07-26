@@ -35,25 +35,30 @@ class Car(models.Model):
 
 class Spring(models.Model):
     wire = models.DecimalField(max_digits=4, decimal_places=2)
-    diam_ext1 = models.DecimalField(max_digits=5, decimal_places=2)
-    diam_ext2 = models.DecimalField(max_digits=5, decimal_places=2)
+    diam_ext1 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    diam_ext2 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     diam_int1 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     diam_int2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
-    length = models.DecimalField(max_digits=6, decimal_places=2)
-    coils = models.DecimalField(max_digits=6, decimal_places=3)
-    coil_direction = models.CharField(max_length=20)
+    length = models.DecimalField(max_digits=6, decimal_places=2, default=0)
+    coils = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    coil_direction = models.CharField(max_length=20, default="-")
     end1 = models.CharField(max_length=50, default="-")
-    luz1 = models.IntegerField()
+    luz1 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    coils_red_1 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    coils_amp_1 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     detail1_end1 = models.CharField(max_length=15, default="-")
     detail2_end1 = models.CharField(max_length=15, default="-")
     detail3_end1 = models.CharField(max_length=15, default="-")
-    eccentricity1 = models.DecimalField(max_digits=6, decimal_places=3, default="-")
+    eccentricity1 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     end2 = models.CharField(max_length=50, default="-")
-    luz2 = models.IntegerField()
+    luz2 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    coils_red_2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    coils_amp_2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     detail1_end2 = models.CharField(max_length=15, default="-")
     detail2_end2 = models.CharField(max_length=15, default="-")
     detail3_end2 = models.CharField(max_length=15, default="-")
-    eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3, default="-")
+    eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
+    grade = models.IntegerField(default=2)
 
 class CargoControl(models.Model):
     f1 = models.DecimalField(max_digits=6, decimal_places=2, null=1)
@@ -130,10 +135,6 @@ class QualityControlReport(models.Model):
     design = models.ForeignKey(Design, on_delete=models.CASCADE)
     designed_spring = models.ForeignKey(DesignedSpring, on_delete=models.CASCADE)
     produced_spring = models.ForeignKey(ProducedSpring, on_delete=models.CASCADE)
-
-
-
-
 
 
 
