@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
+from .fuctions import generatePoints
 
 # Create your views here.
 def hello(request, username):
@@ -66,7 +67,8 @@ def create_spring(request):
                 grade=jd['grade']
                 )
             spring.save()
-            return JsonResponse({'message':'Spring created successfully!'})
+            points = generatePoints(spring)
+            return JsonResponse(points, safe=False)
         else:
             return JsonResponse({'message':'Invalid data, Both wire and coils are required.'}, status=400)
         
