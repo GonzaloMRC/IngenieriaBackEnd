@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'queryapp'
+    'queryapp',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware'
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://mi-aplicacion.com',
+    'https://otra-aplicacion.com',
+    'http://192.168.7.22:3000',
+    'http://localhost:3000'
+    # Agrega aquí los orígenes permitidos
 ]
 
 ROOT_URLCONF = 'igenieriabackend.urls'

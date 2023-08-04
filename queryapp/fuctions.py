@@ -87,6 +87,7 @@ def ord_burbuja(arreglo):
 
 def generatePoints(spring):
 
+
     d = spring.wire
     D = spring.diam_ext1
     d1 = spring.diam_int1
