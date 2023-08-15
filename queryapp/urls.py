@@ -8,5 +8,6 @@ urlpatterns = [
     path('clients/', views.clients),
     path('cars/<int:id>', views.cars),
     path('create-client/', views.create_client),
-    path('create-spring/', views.create_spring)
+    path('create-spring/', views.create_spring),
+    path('simulate-spring/', views.simulate_spring)
 ]
