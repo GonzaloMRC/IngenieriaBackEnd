@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class Client(models.Model):
@@ -59,6 +60,25 @@ class Spring(models.Model):
     detail3_end2 = models.CharField(max_length=15, default="-")
     eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     grade = models.IntegerField(default=2)
+
+class Forces(models.Model):
+    forces = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    displacements = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    spring = models.ForeignKey(Spring, on_delete=models.CASCADE, default="0")
+
+    def __str__(self):
+        arr = []
+        for i in self.forces:
+            print(i)
+            arr.append(i)
+        return f'{arr}'
+    
+class Points(models.Model):
+    posx = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    posy = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    posz = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    esf = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    spring = models.ForeignKey(Spring, on_delete=models.CASCADE, default="0")
 
 class CargoControl(models.Model):
     f1 = models.DecimalField(max_digits=6, decimal_places=2, null=1)

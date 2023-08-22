@@ -1,11 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-from .models import Client, Car, Spring
+from .models import Client, Car, Spring, Forces, Points
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .fuctions import generatePoints
+import time
+from .utils.model3d import generatePoints
+from .utils.fem import fem
 
 # Create your views here.
 def hello(request, username):
@@ -107,9 +109,41 @@ def simulate_spring(request):
                 eccentricity2=jd['eccentricity2'],
                 grade=jd['grade']
                 )
-            spring.save()
-            points = generatePoints(spring)
-            return JsonResponse(points, safe=False)
+            
+            start_time = time.time()
+            NodeX, NodeY,NodeZ, storeForceSum, storeDispl, storeStress, deform, simulations = Spring.fem(spring)
+
+            force = Forces(
+                    forces= storeForceSum,
+                    displacements = [(deform + deform*j) for j in range(simulations)],
+                    spring = spring
+            )
+            force.save()
+            for i in range(len(NodeX)):
+                posX, posY, posZ, stress = ([] for k in range(4))
+                for j in range(len(storeDispl)):
+                    posX.append(NodeX[i] + storeDispl[j][i][0])
+                    posY.append(NodeY[i] + storeDispl[j][i][1])
+                    posZ.append(NodeZ[i] + storeDispl[j][i][2])
+                    if i == len(NodeX) - 1:
+                        stress.append(storeStress[j][i-1])
+                    else:  
+                        stress.append(storeStress[j][i])
+
+                point = Points(posx = posX,
+                                posy = posY,
+                                posz = posZ,
+                                esf = stress,
+                                spring = spring)
+                point.save()
+
+            print(time.time() - start_time)
+            
+            points = list(Points.objects.filter(spring=spring.id).values())
+            forces = list(Forces.objects.filter(spring=spring.id).values())
+            datos={'message': 'Success', 'points': points, 'forces': forces}
+            return JsonResponse(datos)
+
         else:
             return JsonResponse({'message':'Invalid data, Both wire and coils are required.'}, status=400)
         
