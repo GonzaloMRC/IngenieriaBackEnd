@@ -21,13 +21,13 @@ def fem(spring):
       spring.coils_red_1,
       spring.end2,
       spring.luz2,
-      spring.coils_red2,
+      spring.coils_red_2,
       spring.grade
     )
     nodos_x_vta = 80
     # nodos = int(float(spring.vueltas) * nodos_x_vta) + 1
     nodos = len(NodeX)
-    radio = (float(spring.diam_ext) - float(spring.wire)) / 2
+    radio = (float(spring.diam_ext1) - float(spring.wire)) / 2
     # DIVISIÓN DEL RESORTE EN CUERPO Y EXTREMOS
     h_helice = float(spring.length) - float(spring.wire)
     h_extremo1 = float(spring.wire) + float(spring.luz1)

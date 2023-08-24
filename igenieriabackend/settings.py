@@ -92,14 +92,26 @@ WSGI_APPLICATION = 'igenieriabackend.wsgi.application'
 #    }
 #}
 
+#Base de datos Jesus
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'railway',
+#        'USER': 'postgres',
+#        'PASSWORD': 'yY2EzsQBGF0d6sTQzmbL',
+#        'HOST': 'containers-us-west-77.railway.app',
+#        'PORT': '5542',
+#    }
+#}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'yY2EzsQBGF0d6sTQzmbL',
-        'HOST': 'containers-us-west-77.railway.app',
-        'PORT': '5542',
+        'PASSWORD': 'atdwkEXHLo8UqSGmOcRr',
+        'HOST': 'containers-us-west-47.railway.app',
+        'PORT': '7856',
     }
 }
 

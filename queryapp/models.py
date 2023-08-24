@@ -62,8 +62,8 @@ class Spring(models.Model):
     grade = models.IntegerField(default=2)
 
 class Forces(models.Model):
-    forces = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
-    displacements = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    forces = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
+    displacements = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
     spring = models.ForeignKey(Spring, on_delete=models.CASCADE, default="0")
 
     def __str__(self):
@@ -74,10 +74,10 @@ class Forces(models.Model):
         return f'{arr}'
     
 class Points(models.Model):
-    posx = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
-    posy = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
-    posz = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
-    esf = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list())
+    posx = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
+    posy = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
+    posz = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
+    esf = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
     spring = models.ForeignKey(Spring, on_delete=models.CASCADE, default="0")
 
 class CargoControl(models.Model):

@@ -111,14 +111,21 @@ def simulate_spring(request):
                 )
             
             start_time = time.time()
-            NodeX, NodeY,NodeZ, storeForceSum, storeDispl, storeStress, deform, simulations = Spring.fem(spring)
+            NodeX, NodeY,NodeZ, storeForceSum, storeDispl, storeStress, deform, simulations = fem(spring)
 
             force = Forces(
                     forces= storeForceSum,
                     displacements = [(deform + deform*j) for j in range(simulations)],
                     spring = spring
             )
-            force.save()
+
+            force_data = {
+                'forces': list(force.forces),
+                'displacements': list(force.displacements)
+            }
+
+            points=[]
+            
             for i in range(len(NodeX)):
                 posX, posY, posZ, stress = ([] for k in range(4))
                 for j in range(len(storeDispl)):
@@ -135,13 +142,23 @@ def simulate_spring(request):
                                 posz = posZ,
                                 esf = stress,
                                 spring = spring)
-                point.save()
+                points.append(point)
+
+            points_data = []
+
+            for point in points:
+                point_data = {
+                    'posx': point.posx,
+                    'posy': point.posy,
+                    'posz': point.posz,
+                    'esf': point.esf,
+                }
+                points_data.append(point_data)
+
 
             print(time.time() - start_time)
             
-            points = list(Points.objects.filter(spring=spring.id).values())
-            forces = list(Forces.objects.filter(spring=spring.id).values())
-            datos={'message': 'Success', 'points': points, 'forces': forces}
+            datos={'message': 'Success', 'points': point_data, 'forces': force_data}
             return JsonResponse(datos)
 
         else:
