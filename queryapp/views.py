@@ -125,6 +125,8 @@ def simulate_spring(request):
             }
 
             points=[]
+
+            points_data = []
             
             for i in range(len(NodeX)):
                 posX, posY, posZ, stress = ([] for k in range(4))
@@ -144,9 +146,6 @@ def simulate_spring(request):
                                 spring = spring)
                 points.append(point)
 
-            points_data = []
-
-            for point in points:
                 point_data = {
                     'posx': point.posx,
                     'posy': point.posy,
@@ -155,10 +154,20 @@ def simulate_spring(request):
                 }
                 points_data.append(point_data)
 
+            
+            #for point in points:
+            #    point_data = {
+            #        'posx': point.posx,
+            #        'posy': point.posy,
+            #        'posz': point.posz,
+            #        'esf': point.esf,
+            #    }
+            #    points_data.append(point_data)
+
 
             print(time.time() - start_time)
             
-            datos={'message': 'Success', 'points': point_data, 'forces': force_data}
+            datos={'message': 'Success', 'points': points_data, 'forces': force_data}
             return JsonResponse(datos)
 
         else:
