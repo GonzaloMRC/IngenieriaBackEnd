@@ -61,6 +61,35 @@ class Spring(models.Model):
     eccentricity2 = models.DecimalField(max_digits=6, decimal_places=3, default=0)
     grade = models.IntegerField(default=2)
 
+    def to_dict(self):
+        return {
+            'wire': self.wire,
+            'diam_ext1': self.diam_ext1,
+            'diam_ext2': self.diam_ext2,
+            'diam_int1': self.diam_int1,
+            'diam_int2': self.diam_int2,
+            'length': self.length,
+            'coils': self.coils,
+            'coil_direction': self.coil_direction,
+            'end1': self.end1,
+            'luz1': self.luz1,
+            'coils_red_1': self.coils_red_1,
+            'coils_amp_1': self.coils_amp_1,
+            'detail1_end1': self.detail1_end1,
+            'detail2_end1': self.detail2_end1,
+            'detail3_end1': self.detail3_end1,
+            'eccentricity1': self.eccentricity1,
+            'end2': self.end2,
+            'luz2': self.luz2,
+            'coils_red_2': self.coils_red_2,
+            'coils_amp_2': self.coils_amp_2,
+            'detail1_end2': self.detail1_end2,
+            'detail2_end2': self.detail2_end2,
+            'detail3_end2': self.detail3_end2,
+            'eccentricity2': self.eccentricity2,
+            'grade': self.grade
+        }
+
 class Forces(models.Model):
     forces = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)
     displacements = ArrayField(models.DecimalField(max_digits=5, decimal_places=1), default=list)

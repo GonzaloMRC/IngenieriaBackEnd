@@ -167,7 +167,7 @@ def simulate_spring(request):
 
             print(time.time() - start_time)
             
-            datos={'message': 'Success', 'points': points_data, 'forces': force_data}
+            datos={'message': 'Success', 'spring': spring.to_dict(),'points': points_data, 'forces': force_data}
             return JsonResponse(datos)
 
         else:
