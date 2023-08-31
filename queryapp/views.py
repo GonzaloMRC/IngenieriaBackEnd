@@ -154,17 +154,6 @@ def simulate_spring(request):
                 }
                 points_data.append(point_data)
 
-            
-            #for point in points:
-            #    point_data = {
-            #        'posx': point.posx,
-            #        'posy': point.posy,
-            #        'posz': point.posz,
-            #        'esf': point.esf,
-            #    }
-            #    points_data.append(point_data)
-
-
             print(time.time() - start_time)
             
             datos={'message': 'Success', 'spring': spring.to_dict(),'points': points_data, 'forces': force_data}
