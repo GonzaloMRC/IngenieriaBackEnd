@@ -10,6 +10,9 @@ from .utils.model3d import generatePoints
 from .utils.fem import fem
 
 # Create your views here.
+def hello1(request):
+    return HttpResponse("<h1>Hello</h1>")
+
 def hello(request, username):
     print(username)
     return HttpResponse("<h1>Hello %s</h1>" % username)
