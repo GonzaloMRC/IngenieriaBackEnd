@@ -61,7 +61,6 @@ CORS_ALLOWED_ORIGINS = [
     'https://otra-aplicacion.com',
     'http://192.168.7.22:3000',
     'http://localhost:3000',
-    '*'
     # Agrega aquí los orígenes permitidos
 ]
 
