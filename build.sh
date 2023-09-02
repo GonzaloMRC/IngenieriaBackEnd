@@ -1,4 +1,10 @@
-#!/bin/bash
+#!/bin/sh
+
+# Exit on error
+set -e
+
+# Upgrade pip
+python3.11 -m pip install --upgrade pip
 
 # Build the project
 echo "Building the project..."
