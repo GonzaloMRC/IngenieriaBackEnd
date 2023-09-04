@@ -38,7 +38,7 @@ def create_client(request):
         
     return JsonResponse({'message':'POST method required.'}, status=405)
 
-@method_decorator(csrf_exempt)
+@csrf_exempt
 def create_spring(request):
     if request.method == 'POST':
         jd = json.loads(request.body)
@@ -79,7 +79,7 @@ def create_spring(request):
         
     return JsonResponse({'message':'POST method required.'}, status=405)
 
-@method_decorator(csrf_exempt)
+@csrf_exempt
 def simulate_spring(request):
     if request.method == 'POST':
         jd = json.loads(request.body)
