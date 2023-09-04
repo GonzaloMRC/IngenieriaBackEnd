@@ -64,9 +64,7 @@ MIDDLEWARE = [
     # Agrega aquí los orígenes permitidos
 #]
 
-CORS_ALLOWED_ORIGINS = [
-    '*'
-]
+CORS_ALLOWED_ORIGINS = ['*']
 
 ROOT_URLCONF = 'igenieriabackend.urls'
 
