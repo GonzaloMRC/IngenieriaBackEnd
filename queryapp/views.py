@@ -160,7 +160,7 @@ def simulate_spring(request):
             print(time.time() - start_time)
             
             datos={'message': 'Success', 'spring': spring.to_dict(),'points': points_data, 'forces': force_data}
-            return JsonResponse(datos)
+            return JsonResponse(datos, safe=False)
 
         else:
             return JsonResponse({'message':'Invalid data, Both wire and coils are required.'}, status=400)
