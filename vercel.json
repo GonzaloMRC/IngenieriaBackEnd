@@ -1,5 +1,16 @@
 {
     "version":2,
+
+    "functions": [
+        {
+            "queryapp/*.js": {
+                "memory": 3008,
+                "maxDuration": 30
+              }
+        }
+        
+    ],
+
     "builds": [
         {
             "src": "igenieriabackend/wsgi.py",
@@ -27,4 +38,6 @@
             "dest": "igenieriabackend/wsgi.py"
         }
     ]
+
+    
 }
