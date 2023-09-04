@@ -38,7 +38,7 @@ def create_client(request):
         
     return JsonResponse({'message':'POST method required.'}, status=405)
 
-@csrf_exempt
+@method_decorator(csrf_exempt)
 def create_spring(request):
     if request.method == 'POST':
         jd = json.loads(request.body)
@@ -79,7 +79,7 @@ def create_spring(request):
         
     return JsonResponse({'message':'POST method required.'}, status=405)
 
-@csrf_exempt
+@method_decorator(csrf_exempt)
 def simulate_spring(request):
     if request.method == 'POST':
         jd = json.loads(request.body)
@@ -164,13 +164,6 @@ def simulate_spring(request):
 
         else:
             return JsonResponse({'message':'Invalid data, Both wire and coils are required.'}, status=400)
-    
-    if request.method == 'OPTIONS':
-        response = HttpResponse()
-        response['Access-Control-Allow-Origin'] = 'http://localhost:3000'  # Replace with your frontend's origin
-        response['Access-Control-Allow-Methods'] = 'POST'
-        response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
-        return response
         
     return JsonResponse({'message':'POST method required.'}, status=405)
 
