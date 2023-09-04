@@ -56,12 +56,16 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware'
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://mi-aplicacion.com',
-    'https://otra-aplicacion.com',
-    'http://192.168.7.22:3000',
-    'http://localhost:3000',
+#CORS_ALLOWED_ORIGINS = [
+#    'http://mi-aplicacion.com',
+#    'https://otra-aplicacion.com',
+#    'http://192.168.7.22:3000',
+#    'http://localhost:3000',
     # Agrega aquí los orígenes permitidos
+#]
+
+CORS_ALLOWED_ORIGINS = [
+    '*'
 ]
 
 ROOT_URLCONF = 'igenieriabackend.urls'
