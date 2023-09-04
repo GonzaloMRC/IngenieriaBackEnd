@@ -56,14 +56,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware'
 ]
 
-CORS_ORIGIN_WHITELIST = (
-    'http://mi-aplicacion.com',
-    'https://otra-aplicacion.com',
-    'http://192.168.7.22:3000',
-    'http://localhost:3000',
-    'https://search-spring-mrc.netlify.app'
-)
-
 CORS_ALLOWED_ORIGINS = [
     'http://mi-aplicacion.com',
     'https://otra-aplicacion.com',
