@@ -61,6 +61,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://otra-aplicacion.com',
     'http://192.168.7.22:3000',
     'http://localhost:3000',
+    'https://search-spring-mrc.netlify.app'
     # Agrega aquí los orígenes permitidos
 ]
 
