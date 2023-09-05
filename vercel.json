@@ -7,12 +7,12 @@
     },
     "routes": [
         {
-          "src": "/static/(.*)",
-          "dest": "/static/$1"
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
         },
         {
-          "src": "/(.*)",
-          "function": "igenieriabackend/wsgi.application"
+            "src": "/(.*)",
+            "dest": "igenieriabackend/wsgi.application"
         }
     ]
 }
