@@ -1,19 +1,27 @@
 {
     "functions": {
-        "api/*.py": {
-            "memory": 1024,
-            "maxDuration": 10
+      "api/*.py": {
+        "memory": 1024,
+        "maxDuration": 10
+      },
+      "igenieriabackend/wsgi.py": { 
+        "use": "@vercel/python",
+        "config": {
+          "maxLambdaSize": "15mb",
+          "runtime": "python3.9"
         }
+      }
     },
     "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/static/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "igenieriabackend/wsgi.application"
-        }
+      {
+        "src": "/static/(.*)",
+        "dest": "/static/$1"
+      },
+      {
+        "src": "/(.*)",
+        "function": "igenieriabackend/wsgi.application"
+      }
     ]
-}
+  }
+  
   
