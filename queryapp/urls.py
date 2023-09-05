@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from ..api import simulate
+#from ..api import simulate
 
 urlpatterns = [
     path('', views.hello1),
