@@ -4,11 +4,10 @@
         "memory": 1024,
         "maxDuration": 10
       },
-      "igenieriabackend/wsgi.py": { 
-        "use": "@vercel/python",
+      "igenieriabackend/wsgi.py": {
+        "runtime": "python3.9",
         "config": {
-          "maxLambdaSize": "15mb",
-          "runtime": "python3.9"
+          "maxLambdaSize": "15mb"
         }
       }
     },
@@ -23,5 +22,6 @@
       }
     ]
   }
+  
   
   
