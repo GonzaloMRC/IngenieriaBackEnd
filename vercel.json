@@ -1,21 +1,27 @@
 {
     "functions": {
-      "api/*.py": {
-        "memory": 1024,
-        "maxDuration": 10
-      }
+        "api/*.py": {
+            "memory": 1024,
+            "maxDuration": 10
+        },
+        "igenieriabackend/wsgi.py": {
+            "runtime": "python3.9",
+            "maxLambdaSize": "15mb"
+        }
     },
     "routes": [
-      {
-        "src": "/static/(.*)",
-        "dest": "/static/$1"
-      },
-      {
-        "src": "/(.*)",
-        "function": "igenieriabackend/wsgi.application"
-      }
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
+        },
+        {
+            "src": "/(.*)",
+            "function": "igenieriabackend/wsgi.py"
+        }
     ]
 }
+  
+  
   
   
   
