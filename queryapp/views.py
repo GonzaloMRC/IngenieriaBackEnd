@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import time
 from .utils.model3d import generatePoints
-from .utils.fem import fem
+from ..api.fem import fem
 
 # Create your views here.
 def hello1(request):
