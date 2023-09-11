@@ -2,6 +2,12 @@ from django.db import models
 from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
+class Dbauth(models.Model):
+    email = models.CharField(max_length=30, null=1)
+    password = models.CharField(max_length=30, null=1)
+    token = models.CharField(max_length=30, null=1)
+    user_type = models.IntegerField(null=1)
+
 class Client(models.Model):
     name = models.CharField(max_length=80)
     dni_ruc = models.CharField(max_length=11)
@@ -23,11 +29,15 @@ class Car(models.Model):
     wheel_drive = models.CharField(max_length=9,null=1)
     gas_tank = models.CharField(max_length=14,null=1)
     net_weight = models.IntegerField(null=1)
-    goss_weight = models.IntegerField(null=1)
+    gross_weight = models.IntegerField(null=1)
     rows_seats = models.IntegerField(null=1)
     mileage_km = models.IntegerField(null=1)
-    original_tire_code = models.CharField(max_length=9,null=1)
-    installed_tire_code = models.CharField(max_length=9,null=1)
+    original_tire_width = models.IntegerField(null=1)
+    original_aspect_ratio = models.IntegerField(null=1)
+    original_wheel_diameter = models.IntegerField(null=1)
+    installed_tire_width = models.IntegerField(null=1)
+    installed_aspect_ratio = models.IntegerField(null=1)
+    installed_wheel_diameter = models.IntegerField(null=1)
     car_use = models.CharField(max_length=18,null=1)
     extra_charge = models.CharField(max_length=25,null=1)
 
@@ -140,23 +150,6 @@ class SampleSpring(models.Model):
     coil_spacer = models.CharField(max_length=20)
     spacer_height = models.IntegerField()
     spring = models.OneToOneField(Spring, on_delete=models.CASCADE, null=False, blank=False)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-
-class Design(models.Model):
-    correlative = models.IntegerField()
-    status = models.CharField(max_length=11)
-    registration_date = models.DateField()
-    development = models.CharField(max_length=12)
-    request_reason = models.CharField(max_length=100)
-    aplication = models.CharField(max_length=100)
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    sample_spring = models.ForeignKey(SampleSpring, on_delete=models.CASCADE)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
-
-class SpringPointsDesign(models.Model):
-    length = models.DecimalField(max_digits=5, decimal_places=2)
-    coils = models.DecimalField(max_digits=6, decimal_places=3)
-    include_point = models.BooleanField()
 
 class DesignedSpring(models.Model):
     osis_code = models.IntegerField()
@@ -172,9 +165,27 @@ class DesignedSpring(models.Model):
     lda = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     spring = models.OneToOneField(Spring, on_delete=models.CASCADE, null=False, blank=False)
 
+class Design(models.Model):
+    correlative = models.IntegerField()
+    status = models.CharField(max_length=11)
+    registration_date = models.DateField()
+    development = models.CharField(max_length=12)
+    request_reason = models.CharField(max_length=100)
+    aplication = models.CharField(max_length=100)
+    osis_code = models.IntegerField()
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    sample_spring = models.ForeignKey(SampleSpring, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    designed_spring = models.ForeignKey(DesignedSpring, on_delete=models.CASCADE)
+
+class SpringPointsDesign(models.Model):
+    length = models.DecimalField(max_digits=5, decimal_places=2)
+    coils = models.DecimalField(max_digits=6, decimal_places=3)
+    include_point = models.BooleanField()
+
 class ProducedSpring(models.Model):
     osis_code = models.IntegerField()
-    date = models.DateField()
+    produced_date = models.DateField()
     spring = models.ForeignKey(Spring, on_delete=models.CASCADE,null=False, blank=False)
 
 class QualityControlReport(models.Model):
