@@ -32,7 +32,7 @@ def login(request):
     if not pwd_valid:
         return Response("Contraseña inválida")
 
-    token = Token.objects.create(user=user)
+    token, created = Token.objects.get_or_create(user=user)
 
     print(token.key)
     return Response(token.key)
