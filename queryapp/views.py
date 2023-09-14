@@ -9,6 +9,19 @@ import time
 from .utils.model3d import generatePoints
 from .utils.fem import fem
 
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+
+@api_view(['GET'])
+def login(request):
+    user = User.objects.get(username='admin')
+
+    token = Token.objects.create(user=user)
+
+    print(token.key)
+
+
 # Create your views here.
 def hello1(request):
     return HttpResponse("<h1>Hello</h1>")
