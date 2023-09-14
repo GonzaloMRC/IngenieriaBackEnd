@@ -11,5 +11,5 @@ urlpatterns = [
     path('create-client/', views.create_client),
     path('create-spring/', views.create_spring),
     path('simulate-spring/', views.simulate_spring),
-    path('login/', views.login)
+    path('login/', views.login),
 ]
