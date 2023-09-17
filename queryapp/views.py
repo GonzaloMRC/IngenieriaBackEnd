@@ -15,10 +15,13 @@ from rest_framework.response import Response
 
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.forms import UserCreationForm
 
 
 def signup(request):
-    return render(request,'signup.html')
+    return render(request,'signup.html', {
+        'form': UserCreationForm
+    })
 
 @api_view(['POST'])
 def login(request):
