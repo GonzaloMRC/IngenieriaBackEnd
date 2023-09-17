@@ -17,11 +17,28 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
 
+def home(request):
+    return render(request,'home.html')
 
 def signup(request):
-    return render(request,'signup.html', {
-        'form': UserCreationForm
-    })
+
+    if request.method == 'GET':
+        return render(request,'signup.html', {
+            'form': UserCreationForm
+        })
+    else:
+        if request.POST['password1'] == request.POST['password2']:
+            # register user
+            try:
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                user.save()
+                return HttpResponse('User created successfully')
+            except:
+                return HttpResponse('Username already exists')
+        return HttpResponse('Password do not match')
+        
+
+    
 
 @api_view(['POST'])
 def login(request):
@@ -46,8 +63,6 @@ def login(request):
 
 
 # Create your views here.
-def hello1(request):
-    return HttpResponse("<h1>Hello</h1>")
 
 def hello(request, username):
     print(username)

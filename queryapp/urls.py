@@ -3,7 +3,7 @@ from . import views
 #from ..api import simulate
 
 urlpatterns = [
-    path('', views.hello1),
+    path('', views.home, name='home'),
     path('about/', views.about),
     path('hello/<str:username>', views.hello),
     path('clients/', views.clients),
@@ -12,5 +12,5 @@ urlpatterns = [
     path('create-spring/', views.create_spring),
     path('simulate-spring/', views.simulate_spring),
     path('login/', views.login),
-    path('signup/',views.signup)
+    path('signup/',views.signup, name='signup') 
 ]
