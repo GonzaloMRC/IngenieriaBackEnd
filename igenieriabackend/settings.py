@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'queryapp',
     'corsheaders',
+    'rest_framework',
     'rest_framework.authtoken'
 ]
 
@@ -50,6 +51,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
 }
+
+TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
