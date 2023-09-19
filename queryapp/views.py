@@ -9,7 +9,8 @@ import time
 from .utils.model3d import generatePoints
 from .utils.fem import fem
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -84,6 +85,9 @@ def hello(request, username):
     print(username)
     return HttpResponse("<h1>Hello %s</h1>" % username)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def about(request):
     return HttpResponse('About')
 

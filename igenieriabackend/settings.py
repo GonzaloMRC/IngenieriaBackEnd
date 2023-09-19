@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 import os
@@ -43,13 +44,27 @@ INSTALLED_APPS = [
     'queryapp',
     'corsheaders',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'rest_framework_simplejwt'
 ]
 
+#REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES': [
+#        'rest_framework.authentication.TokenAuthentication',
+#    ],
+#}
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Tiempo de expiración del token de acceso
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),  # Tiempo de expiración del token de actualización (opcional)
+    'SLIDING_TOKEN_LIFETIME': timedelta(days=7),  # Duración máxima del token de actualización (opcional)
+    'SLIDING_TOKEN_REFRESH_ON_LOGIN': True,  # Actualizar el token de acceso en cada inicio de sesión (opcional)
 }
 
 TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS')
