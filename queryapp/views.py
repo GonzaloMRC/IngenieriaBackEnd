@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from .models import Client, Car, Spring, Forces, Points
 from django.shortcuts import get_object_or_404
@@ -12,9 +12,11 @@ from .utils.fem import fem
 from rest_framework.decorators import api_view
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from rest_framework import viewsets
 
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 
 from queryapp.authentication_mixins import Authentication
@@ -66,9 +68,14 @@ def login(request):
     print(token.key)
     return Response(token.key)
 
-class PruebaToken(Authentication):
+def log_out(request):
+    logout(request)
+    return redirect('home')
+
+class PruebaToken(Authentication, viewsets.ModelViewSet):
 
     def prueba(request):
+        print('funciona')
         return HttpResponse("<h1>Hello</h1>") 
 
 # Create your views here.
