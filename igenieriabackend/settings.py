@@ -29,8 +29,8 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-#ALLOWED_HOSTS = ["*"]
-ALLOWED_HOSTS = [".vercel.app"]
+ALLOWED_HOSTS = ["*"]
+#ALLOWED_HOSTS = [".vercel.app"]
 
 # Application definition
 
@@ -48,26 +48,26 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
 #REST_FRAMEWORK = {
-#    'DEFAULT_AUTHENTICATION_CLASSES': [
-#        'rest_framework.authentication.TokenAuthentication',
-#    ],
+#    'DEFAULT_AUTHENTICATION_CLASSES': (
+#        'rest_framework_simplejwt.authentication.JWTAuthentication',
+#    ),
 #}
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
+#SIMPLE_JWT = {
+#    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Tiempo de expiración del token de acceso
+#    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),  # Tiempo de expiración del token de actualización (opcional)
+#    'SLIDING_TOKEN_LIFETIME': timedelta(days=7),  # Duración máxima del token de actualización (opcional)
+#    'SLIDING_TOKEN_REFRESH_ON_LOGIN': True,  # Actualizar el token de acceso en cada inicio de sesión (opcional)
+#}
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # Tiempo de expiración del token de acceso
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),  # Tiempo de expiración del token de actualización (opcional)
-    'SLIDING_TOKEN_LIFETIME': timedelta(days=7),  # Duración máxima del token de actualización (opcional)
-    'SLIDING_TOKEN_REFRESH_ON_LOGIN': True,  # Actualizar el token de acceso en cada inicio de sesión (opcional)
-}
-
-TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS')
+TOKEN_EXPIRED_AFTER_SECONDS = config('TOKEN_EXPIRED_AFTER_SECONDS', cast=int)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

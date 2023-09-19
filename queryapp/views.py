@@ -20,6 +20,7 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth import logout
 from django.contrib.auth.forms import UserCreationForm
 
+from rest_framework.decorators import authentication_classes
 from queryapp.authentication_mixins import Authentication
 
 def home(request):
@@ -73,11 +74,11 @@ def log_out(request):
     logout(request)
     return redirect('home')
 
-class PruebaToken(Authentication, viewsets.ModelViewSet):
-
-    def prueba(request):
-        print('funciona')
-        return HttpResponse("<h1>Hello</h1>") 
+class Prueba(Authentication, viewsets.ModelViewSet):
+    # Define your ModelViewSet configuration here
+    
+    def prueba(self, request):
+        return HttpResponse("<h1>Hello</h1>")
 
 # Create your views here.
 
