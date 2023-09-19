@@ -17,6 +17,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.forms import UserCreationForm
 
+from queryapp.authentication_mixins import Authentication
+
 def home(request):
     return render(request,'home.html')
 
@@ -41,10 +43,7 @@ def signup(request):
         return render(request,'signup.html', {
             'form': UserCreationForm,
             'error': 'Password do not match'
-        })
-        
-
-    
+        }) 
 
 @api_view(['POST'])
 def login(request):
@@ -67,6 +66,10 @@ def login(request):
     print(token.key)
     return Response(token.key)
 
+class PruebaToken(Authentication):
+
+    def prueba(request):
+        return HttpResponse("<h1>Hello</h1>") 
 
 # Create your views here.
 

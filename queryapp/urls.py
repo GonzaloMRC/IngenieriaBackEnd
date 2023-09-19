@@ -12,5 +12,6 @@ urlpatterns = [
     path('create-spring/', views.create_spring),
     path('simulate-spring/', views.simulate_spring),
     path('login/', views.login),
-    path('signup/',views.signup, name='signup') 
+    path('signup/',views.signup, name='signup'),
+    path('prueba/',views.PruebaToken.prueba)  
 ]
