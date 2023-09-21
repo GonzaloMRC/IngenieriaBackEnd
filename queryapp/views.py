@@ -14,6 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import viewsets
 
 from django.contrib.auth.models import User
@@ -23,6 +24,8 @@ from django.contrib.auth.forms import UserCreationForm
 
 from rest_framework.decorators import authentication_classes
 from queryapp.authentication_mixins import Authentication
+from queryapp.serializers import UserTokenSerializer
+
 
 def home(request):
     return render(request,'home.html')
@@ -55,7 +58,30 @@ class Login(ObtainAuthToken):
     def post(self,request,*args,**kwargs):
         login_serializer = self.serializer_class(data = request.data, context = {'request':request})
         if login_serializer.is_valid():
-            print()
+            user = login_serializer._validated_data['user']
+            if user.is_active:
+                token,created = Token.objects.get_or_create(user=user)
+                user_serializer = UserTokenSerializer(user)
+                if created:
+                    return Response({
+                        'token': token.key,
+                        'user': user_serializer.data,
+                        'message': 'Inicio de Sesión Exitoso.'
+                    },status=status.HTTP_201_CREATED)
+                else:
+                    token.delete()
+                    token = Token.objects.create(user = user)
+                    return Response({
+                        'token': token.key,
+                        'user': user_serializer.data,
+                        'message': 'Inicio de Sesión Exitoso.'
+                    },status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error':'Este usuario no puede iniciar sesión.'},status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response({'error':'Nombre de usuario o contraseña incorrectos.'},status=status.HTTP_400_BAD_REQUEST)
+        return Response({'mensaje':'Hola desde response'},status=status.HTTP_200_OK)
+    
 
 
 
