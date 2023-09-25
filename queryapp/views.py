@@ -16,7 +16,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.views import APIView
 
+from django.contrib.sessions.models import Session
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth import logout
@@ -26,6 +28,7 @@ from rest_framework.decorators import authentication_classes
 from queryapp.authentication_mixins import Authentication
 from queryapp.serializers import UserTokenSerializer
 
+from datetime import datetime
 
 def home(request):
     return render(request,'home.html')
@@ -69,6 +72,14 @@ class Login(ObtainAuthToken):
                         'message': 'Inicio de Sesión Exitoso.'
                     },status=status.HTTP_201_CREATED)
                 else:
+                    # Gestion de sesiones: Solo una sesion activa por Pc. Se borran todas las sesiones cuando se tiene más de 1 sesión por usuario.
+                    """
+                    all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
+                    if all_sessions.exists():
+                        for session in all_sessions:
+                            session_data = session.get_decoded()
+                            if user.id == int(session_data.get('_auth_user_id')):
+                                session.delete()
                     token.delete()
                     token = Token.objects.create(user = user)
                     return Response({
@@ -76,14 +87,46 @@ class Login(ObtainAuthToken):
                         'user': user_serializer.data,
                         'message': 'Inicio de Sesión Exitoso.'
                     },status=status.HTTP_201_CREATED)
+                    """
+                    # Gestión de login: Solo se puede iniciar sesion una vez, se tiene que cerrar la sesion anterior para iniciar nuevamanete en otro equipo.
+                    token.delete()
+                    return Response({
+                        'error':'Ya se ha iniciado sesión con este usuario.'
+                    }, status= status.HTTP_409_CONFLICT)
             else:
                 return Response({'error':'Este usuario no puede iniciar sesión.'},status=status.HTTP_401_UNAUTHORIZED)
         else:
             return Response({'error':'Nombre de usuario o contraseña incorrectos.'},status=status.HTTP_400_BAD_REQUEST)
         return Response({'mensaje':'Hola desde response'},status=status.HTTP_200_OK)
     
+class Logout(APIView):
 
+    def get(self,request,*args,**kwargs):
+        try:
+            token = request.GET.get('token') # El frontend debe enviar el token con ese nombre de la varibale para que funcione.
+            print(token)
+            token = Token.objects.filter(key=token).first()
+            
+            if token:
+                user = token.user
 
+                all_sessions = Session.objects.filter(expire_date__gte = datetime.now())
+                if all_sessions.exists():
+                    for session in all_sessions:
+                        session_data = session.get_decoded()
+                        if user.id == int(session_data.get('_auth_user_id')):
+                            session.delete()
+
+                token.delete()
+
+                session_message = 'Sesiones de usuario eliminadas.'
+                token_message = 'Token eliminado'
+                return Response({'token_message': token_message, 'session_message': session_message}, status=status.HTTP_200_OK)
+
+            return Response({'error':'No se ha encontrado un usuario con estas credenciales.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        except:
+            return Response({'error':'No se ha encontrado token en la petición.'}, status=status.HTTP_409_CONFLICT)
 
 @api_view(['POST'])
 def login(request):

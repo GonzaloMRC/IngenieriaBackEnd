@@ -14,6 +14,6 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='Login'),
     path('signup/',views.signup, name='signup'),
     path('prueba/', views.Prueba.as_view({'get': 'prueba'}), name='prueba'),
-    path('logout/',views.log_out) 
+    path('logout/',views.Logout.as_view(), name='Logout') 
 
 ]
