@@ -14,6 +14,7 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='Login'),
     path('signup/',views.signup, name='signup'),
     path('prueba/', views.Prueba.as_view({'get': 'prueba'}), name='prueba'),
+    path('refresh-token/', views.UserToken.as_view(), name='refresh_token'),
     path('logout/',views.Logout.as_view(), name='Logout') 
 
 ]
