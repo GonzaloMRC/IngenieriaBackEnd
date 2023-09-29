@@ -29,6 +29,7 @@ from queryapp.authentication_mixins import Authentication
 from queryapp.serializers import UserTokenSerializer
 
 from datetime import datetime
+import logging
 
 def home(request):
     return render(request,'home.html')
@@ -55,6 +56,41 @@ def signup(request):
             'form': UserCreationForm,
             'error': 'Password do not match'
         }) 
+    
+class UserToken(APIView):
+	
+    def get(self, request, *args, **kwargs):
+        username = request.GET.get('username')
+        print(f"Received username: {username}")
+
+        try:
+            user = UserTokenSerializer().Meta.model.objects.filter(username=username).first()
+            print(f"Retrieved user: {user}")
+            print(f"Query: {str(UserTokenSerializer().Meta.model.objects.filter(username=username).query)}")
+
+            if user:
+                user_token = Token.objects.get(user=user)
+                print(f"Retrieved token: {user_token.key}")
+
+                return Response({
+                    'token': user_token.key
+                })
+            else:
+                return Response({
+                    'error': 'User not found.'
+                }, status=status.HTTP_404_NOT_FOUND)
+
+        except Token.DoesNotExist:
+            return Response({
+                'error': 'Token not found for the user.'
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            # Log the exception for debugging
+            logging.error(str(e))
+            return Response({
+                'error': 'An error occurred.'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class Login(ObtainAuthToken):
 
@@ -127,22 +163,6 @@ class Logout(APIView):
         
         except:
             return Response({'error':'No se ha encontrado token en la petición.'}, status=status.HTTP_409_CONFLICT)
-
-
-class UserToken(APIView):
-	def get(self,request,args,*kwargs):
-		username = request.GET.get('username')
-		try:
-			user_token = Token.objects.get(
-				user = UserTokenSerializer().Meta.model.objects.filter(username = username).first()
-			)
-			return Response({
-				'token': user_token.key
-			})
-		except:
-			return Response({
-				'error': 'Credenciales enviadas incorrectas.'
-			}, status = status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def login(request):
