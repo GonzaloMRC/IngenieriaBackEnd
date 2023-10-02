@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Client, Car, CargoControl, Spring, SampleSpring, Design, SpringPointsDesign, DesignedSpring, ProducedSpring, QualityControlReport
+from .models import User, Client, Car, CargoControl, Spring, SampleSpring, Design, SpringPointsDesign, DesignedSpring, ProducedSpring, QualityControlReport
 
 # Register your models here.
+admin.site.register(User)
 admin.site.register(Client)
 admin.site.register(Car)
 admin.site.register(CargoControl)
