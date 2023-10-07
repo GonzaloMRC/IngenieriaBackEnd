@@ -7,7 +7,6 @@ from simple_history.models import HistoricalRecords
 from django.utils.translation import gettext as _
 
 # Gestion de usuarios
-
 class UserManager(BaseUserManager):
     def _create_user(self,username,email,first_name,last_name,password,is_staff,is_superuser,**extra_fields):
         user = self.model(
@@ -249,7 +248,3 @@ class QualityControlReport(models.Model):
     design = models.ForeignKey(Design, on_delete=models.CASCADE)
     designed_spring = models.ForeignKey(DesignedSpring, on_delete=models.CASCADE)
     produced_spring = models.ForeignKey(ProducedSpring, on_delete=models.CASCADE)
-
-
-
-
